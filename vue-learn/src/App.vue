@@ -7,11 +7,12 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-
+// import A from './pages/a.vue'
+// import B from './pages/b.vue'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
   }
 }
 </script>
