@@ -1,12 +1,14 @@
 import Vue from 'vue'
 // import App from './App.vue'
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
+import A from './pages/a';
+import B from './pages/b';
+import store from './store';
+
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
 
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
@@ -14,8 +16,8 @@ const Bar = { template: '<div>bar</div>' }
 // 或者，只是一个组件配置对象。
 // 我们晚点再讨论嵌套路由。
 const routes = [
-  { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar }
+  { path: '/', component: A },
+  { path: '/bar', component: B }
 ]
 
 const router = new VueRouter({
@@ -27,5 +29,5 @@ const router = new VueRouter({
 // }).$mount('#app')
 new Vue({
 //   render: h => h(App),
-  router
+  router,store
 }).$mount('#app')
