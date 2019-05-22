@@ -1,5 +1,5 @@
 function m1(ctx){
-    global.console.log('m1',ctx)
+    global.console.log('m1')
 }
 
 module.exports = function(){
