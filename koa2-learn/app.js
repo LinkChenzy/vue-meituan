@@ -8,6 +8,9 @@ const logger = require('koa-logger')
 const m1 = require('./middleware/m1')
 const m2 = require('./middleware/m2')
 const m3 = require('./middleware/m3')
+// 引入redis session
+const session = require('koa-generic-session')
+const Redis = require('koa-redis')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -16,6 +19,12 @@ const mongoose = require('mongoose')
 const dbConfig = require('./db/config');
 // error handler
 onerror(app)
+/* session redis */
+app.keys = ['keys','keyskeys'];
+app.use(session({
+  key:'mt',prefix:'mtpr',
+  store:new Redis()
+}))
 
 // middlewares
 // test middlewares

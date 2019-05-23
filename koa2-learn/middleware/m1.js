@@ -1,4 +1,5 @@
 function m1(ctx){
+    ctx.session.count ++ ;
     global.console.log('m1')
 }
 
