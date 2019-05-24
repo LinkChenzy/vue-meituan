@@ -1,6 +1,8 @@
 const router = require('koa-router')()
 const Person = require('../db/models/person')
+const Redis = require('koa-redis')
 
+const Store = new Redis().client
 router.prefix('/users')
 
 router.get('/', function (ctx, next) {
@@ -55,6 +57,16 @@ router.post('/removeperson',async (ctx)=>{
   }).remove()
   ctx.body = {
     code:0,result
+  }
+})
+// 操作redis
+router.get('/redis',async (ctx)=>{
+  const creatRedis = await Store.hset('fix','name',Math.random())
+  // 在redis目录下启动redis-cli
+  // 查询全部 keys * 然后get key(key值)
+  // 查询当前设置的fix hget fix name
+  ctx.body = {
+    code:0
   }
 })
 
