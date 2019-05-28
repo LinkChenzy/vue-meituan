@@ -19,7 +19,7 @@ module.exports = {
         named: 'never'
       }
     ],
-     "indent": [1, 2],
+    'indent': 'off',
   },
   globals: {}
 }

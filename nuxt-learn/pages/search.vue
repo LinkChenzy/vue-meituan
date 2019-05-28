@@ -4,7 +4,9 @@
       search page
     </h1>
     <ul>
-        <li v-for="(item , idx) in list" :key="idx">{{item}}</li>
+        <!-- vuex ssr -->
+        <li v-for="(item , idx) in $store.state.city.list" :key="idx">{{item}}</li>
+        <!-- <li v-for="(item , idx) in list" :key="idx">{{item}}</li> -->
     </ul>
   </section>
 </template>
@@ -17,6 +19,15 @@ export default {
             list: []
         }
     },
+    // 正常的逻辑渲染，页面会出现数据闪烁
+    // async mounted() {
+    //     let self = this
+    //     let {status, data: {list}} = await axios.get('/city/list')
+    //     if (status === 200) {
+    //         self.list = list
+    //     }
+    // }
+    // ssr服务端渲染
     async asyncData() {
         let {status, data: {list}} = await axios.get('http://localhost:3300/city/list')
         if (status === 200) {
