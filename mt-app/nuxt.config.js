@@ -27,7 +27,7 @@ module.exports = {
   css: [
     'element-ui/lib/theme-chalk/reset.css',
     'element-ui/lib/theme-chalk/index.css',
-    // '~main.css'
+    '@/assets/css/main.css'
   ],
 
   /*
@@ -66,10 +66,13 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
+          exclude: /(node_modules)/,
+          options: {
+            fix: true
+          }
         })
       }
     },
-    cache:true
+    cache: true
   }
 }
