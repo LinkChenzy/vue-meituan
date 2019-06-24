@@ -14,33 +14,23 @@
             placeholder="搜索商家或地点"
             @focus="focus"
             @blur="blur"
+            @input="input"
           ></el-input>
           <button class="el-button el-button--primary">
             <i class="el-icon-search" />
           </button>
           <dl v-if="isHotPlace" class="hotPlace">
             <dt>热门搜索</dt>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
+            <dd v-for="(item, idx) in hotPlace" :key="idx">{{ item }}</dd>
           </dl>
           <dl v-if="isSearchList" class="searchList">
-            <dd>火锅</dd>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
-            <dd>火锅</dd>
+            <dd v-for="(item, idx) in searchList" :key="idx">{{ item }}</dd>
           </dl>
         </div>
         <p class="suggest">
-          <a href="#">故宫博物馆</a>
-          <a href="#">故宫博物馆</a>
-          <a href="#">故宫博物馆</a>
-          <a href="#">故宫博物馆</a>
-          <a href="#">故宫博物馆</a>
+          <a v-for="(item, idx) in suggestList" :key="idx" href="item.url">{{
+            item.name
+          }}</a>
         </p>
         <ul class="nav">
           <li><nuxt-link to="/" class="takeout">美团外卖</nuxt-link></li>
@@ -75,7 +65,15 @@ export default {
   data() {
     return {
       search: '',
-      isFocus: false
+      isFocus: false,
+      hotPlace: ['火锅', '火锅'],
+      searchList: ['天安门', '西直门', '天安门', '天安门'],
+      suggestList: [
+        { url: '/', name: '故宫' },
+        { url: '/', name: '故宫博物馆' },
+        { url: '/', name: '故宫博物馆' },
+        { url: '/', name: '故宫博物馆' }
+      ]
     }
   },
   computed: {
@@ -92,6 +90,9 @@ export default {
     },
     blur: function() {
       this.isFocus = false
+    },
+    input: () => {
+      window.console.log('输入时触发的方法')
     }
   }
 }
