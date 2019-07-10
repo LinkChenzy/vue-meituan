@@ -9,8 +9,9 @@ import Redis from 'koa-redis'
 import json from 'koa-json'
 import dbConfig from './dbs/config'
 import passport from './interface/util/passport'
+// 接口
 import users from './interface/users'
-
+import geo from './interface/geo'
 const app = new Koa()
 
 // 配置session redis mongoose
@@ -47,7 +48,9 @@ async function start() {
   } else {
     await nuxt.ready()
   }
+  // 使用接口配置
   app.use(users.routes()).use(users.allowedMethods())
+  app.use(geo.routes()).use(geo.allowedMethods())
 
   app.use(ctx => {
     ctx.status = 200
