@@ -21,16 +21,26 @@
           </button>
           <dl v-if="isHotPlace" class="hotPlace">
             <dt>热门搜索</dt>
-            <dd v-for="(item, idx) in hotPlace" :key="idx">{{ item }}</dd>
+            <dd
+              v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)"
+              :key="idx"
+            >
+              {{ item.name }}
+            </dd>
           </dl>
           <dl v-if="isSearchList" class="searchList">
-            <dd v-for="(item, idx) in searchList" :key="idx">{{ item }}</dd>
+            <dd v-for="(item, idx) in searchList" :key="idx">
+              {{ item.name }}
+            </dd>
           </dl>
         </div>
         <p class="suggest">
-          <a v-for="(item, idx) in suggestList" :key="idx" href="item.url">{{
-            item.name
-          }}</a>
+          <a
+            v-for="(item, idx) in $store.state.home.hotPlace.slice(0, 5)"
+            :key="idx"
+          >
+            {{ item.name }}
+          </a>
         </p>
         <ul class="nav">
           <li><nuxt-link to="/" class="takeout">美团外卖</nuxt-link></li>
@@ -61,13 +71,14 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   data() {
     return {
       search: '',
       isFocus: false,
-      hotPlace: ['火锅', '火锅'],
-      searchList: ['天安门', '西直门', '天安门', '天安门'],
+      hotPlace: [],
+      searchList: [],
       suggestList: [
         { url: '/', name: '故宫' },
         { url: '/', name: '故宫博物馆' },
@@ -91,9 +102,21 @@ export default {
     blur: function() {
       this.isFocus = false
     },
-    input: () => {
-      window.console.log('输入时触发的方法')
-    }
+    input: _.debounce(async function() {
+      const self = this
+      const city = self.$store.state.geo.position.city.replace('市', '')
+      self.searchList = []
+      const {
+        status,
+        data: { top, code }
+      } = await self.$axios.get('/search/top', {
+        params: {
+          input: self.search,
+          city
+        }
+      })
+      self.searchList = status === 200 && code === 0 ? top.slice(0, 10) : []
+    }, 300)
   }
 }
 </script>
