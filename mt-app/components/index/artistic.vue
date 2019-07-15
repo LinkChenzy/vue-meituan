@@ -56,67 +56,47 @@ export default {
       return this.list[this.kind]
     }
   },
-  async mounted() {
-    const self = this
-    const {
-      status,
-      data: { count, pois }
-    } = await self.$axios.get('/search/resultsByKeywords', {
-      params: {
-        keyword: '景点',
-        city: self.$store.state.geo.position.city
-      }
-    })
-    if (status === 200 && count > 0) {
-      const r = pois
-        .filter(item => item.photos.length)
-        .map(item => {
-          return {
-            title: item.name,
-            pos: item.type.split(';')[0],
-            price: item.biz_ext.cost || '暂无',
-            img: item.photos[0].url,
-            url: '//abc.com'
-          }
-        })
-      self.list[self.kind] = r.slice(0, 9)
-    } else {
-      self.list[self.kind] = []
-    }
+  mounted() {
+    // 初始化全部
+    const keyword = '景点'
+    this.getKeyList(keyword)
   },
   methods: {
-    over: async function(e) {
+    over: function(e) {
       const dom = e.target
       const tag = dom.tagName.toLowerCase()
-      const self = this
       if (tag === 'dd') {
         this.kind = dom.getAttribute('kind')
         const keyword = dom.getAttribute('keyword')
-        const {
-          status,
-          data: { count, pois }
-        } = await self.$axios.get('/search/resultsByKeywords', {
-          params: {
-            keyword,
-            city: self.$store.state.geo.position.city
-          }
-        })
-        if (status === 200 && count > 0) {
-          const r = pois
-            .filter(item => item.photos.length)
-            .map(item => {
-              return {
-                title: item.name,
-                pos: item.type.split(';')[0],
-                price: item.biz_ext.cost || '暂无',
-                img: item.photos[0].url,
-                url: '//abc.com'
-              }
-            })
-          self.list[self.kind] = r.slice(0, 9)
-        } else {
-          self.list[self.kind] = []
+        this.getKeyList(keyword)
+      }
+    },
+    getKeyList: async function(keyword) {
+      const self = this
+      const {
+        status,
+        data: { count, pois }
+      } = await self.$axios.get('/search/resultsByKeywords', {
+        params: {
+          keyword,
+          city: self.$store.state.geo.position.city
         }
+      })
+      if (status === 200 && count > 0) {
+        const r = pois
+          .filter(item => item.photos.length)
+          .map(item => {
+            return {
+              title: item.name,
+              pos: item.type.split(';')[0],
+              price: item.biz_ext.cost || '暂无',
+              img: item.photos[0].url,
+              url: '//abc.com'
+            }
+          })
+        self.list[self.kind] = r.slice(0, 9)
+      } else {
+        self.list[self.kind] = []
       }
     }
   }

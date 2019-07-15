@@ -32,5 +32,19 @@ router.get('/hotPlace',async (ctx)=>{
         hotPlace: status === 200 ? result:[]
     }
 })
+// 首页关键字列表
+router.get('/resultsByKeywords',async (ctx)=>{
+    const { city,keyword } = ctx.query;
+    let { status,data:{count,pois}} = await axios.get('http://cp-tools.cn/search/resultsByKeywords',{
+        params:{
+            keyword,city,sign
+        }
+    })
+    ctx.body = {
+        code:status === 200?0:-1,
+        count:status === 200?count:0,
+        pois:status === 200?pois:[]
+    }
+})
 
 export default router;

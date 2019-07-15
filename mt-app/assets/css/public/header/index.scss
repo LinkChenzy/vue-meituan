@@ -1,5 +1,12 @@
 @import "./topbar.scss";
 @import "./search.scss";
+.el-container .el-header{
+  height: auto !important;
+}
+.el-container .el-main{
+  padding: 50px 20px !important;
+  margin-top: -50px;
+}
 .m-header{
   @at-root .layout-default{
     .el-header{

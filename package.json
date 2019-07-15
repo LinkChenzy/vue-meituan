@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "js-pinyin": "^0.1.9",
     "vuex": "^3.1.0"
   }
 }
