@@ -46,5 +46,28 @@ router.get('/resultsByKeywords',async (ctx)=>{
         pois:status === 200?pois:[]
     }
 })
+// 产品详情
+router.get('/products',async (ctx)=>{
+    const keyword = ctx.query.keyword || '旅游';
+    const city = ctx.query.city || '北京';
+    let { status,data:{more,product}} = await axios.get('http://cp-tools.cn/search/products',{
+        params:{
+            keyword,city,sign
+        }
+    })
+    if(status === 200){
+        ctx.body = {
+            product,
+            more:ctx.isAuthenticated()?more:[],
+            login:ctx.isAuthenticated()
+        }
+    }else{
+        ctx.body = {
+            product:{},
+            more:ctx.isAuthenticated()?more:[],
+            login:ctx.isAuthenticated()
+        }
+    }
+})
 
 export default router;

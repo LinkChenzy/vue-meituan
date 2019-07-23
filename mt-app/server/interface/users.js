@@ -5,7 +5,6 @@ import User from "../dbs/models/users"
 import nodemailer from 'nodemailer'
 import Passport from './util/passport'
 import axios from './util/axios'
-import passport from "./util/passport";
 
 let router = new Router({prefix:'/users'});
 let Store = new Redis().client;
