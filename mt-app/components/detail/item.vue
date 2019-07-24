@@ -35,28 +35,32 @@ export default {
     }
   },
   methods: {
+    // 创建新的购物车
     createCart: async function() {
-      // const self = this
-      // const {
-      //   status,
-      //   data: { code, id }
-      // } = await this.$axios.post('/cart/create', {
-      //   params: {
-      //     id: Math.random()
-      //       .toString()
-      //       .slice(3, 9),
-      //     detail: {
-      //       name: self.meta.name,
-      //       price: self.meta.biz_ext.cost,
-      //       imgs: self.meta.photos
-      //     }
-      //   }
-      // })
-      // if (status === 200 && code === 0) {
-      //   window.location.href = `/cart/?id=${id}`
-      // } else {
-      //   console.log('error')
-      // }
+      const self = this
+      // 接收创建好的购物车id 和 code
+      const {
+        status,
+        data: { code, id }
+      } = await this.$axios.post('/cart/create', {
+        // 传入的参数是产品的id  产品的详情
+        params: {
+          id: Math.random()
+            .toString()
+            .slice(3, 9),
+          detail: {
+            name: self.meta.name,
+            price: self.meta.biz_ext.cost,
+            imgs: self.meta.photos
+          }
+        }
+      })
+      // 创建成功则跳转到购物车id
+      if (status === 200 && code === 0) {
+        window.location.href = `/cart/?id=${id}`
+      } else {
+        console.log('err')
+      }
     }
   }
 }
