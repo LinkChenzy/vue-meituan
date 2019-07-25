@@ -60,7 +60,28 @@ export default {
     }
   },
   methods: {
-    submit: function() {}
+    submit: async function() {
+      // 创建新的订单 参数需要 产品名称，价格，数量，购物车id
+      const {
+        status,
+        data: { code, id }
+      } = await this.$axios.post('/order/createOrder', {
+        name: this.cart[0].name,
+        price: this.cart[0].price,
+        count: this.cart[0].count,
+        id: this.cartNo
+      })
+      if (status === 200 && code === 0) {
+        this.$alert(`恭喜您，已成功下单，订单号:${id}`, '下单成功', {
+          confirmButtonText: '确定',
+          callback: action => {
+            location.href = '/order'
+          }
+        })
+      } else {
+        this.$alert('下单失败')
+      }
+    }
   }
 }
 </script>
